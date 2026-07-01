@@ -21,24 +21,15 @@ Conversion	Which campaigns generate completed appointments?
 
 ## 4. Event Tracking Architecture
 
-User Interaction
-        │
-        ▼
-Frontend Application
-(window.dataLayer.push)
-        │
-        ▼
-Google Tag Manager
-(Custom Event Trigger)
-        │
-        ▼
-GA4 Event Tag
-        │
-        ▼
-Google Analytics 4
-        │
-        ▼
-Marketing Dashboard / Google Ads
+```mermaid
+graph TD
+    A[User Interaction]
+    --> B["Frontend Application (window.dataLayer.push)"]
+    --> C["Google Tag Manager (Custom Event Trigger)"]
+    --> D[GA4 Event Tag]
+    --> E[Google Analytics 4]
+    --> F[Marketing Dashboard / Google Ads]
+```
 
 
 ## 5. Event Schema Table
@@ -67,17 +58,11 @@ The booking process consists of a three-step funnel. Since this is a multi-step 
 
 ```mermaid
 graph TD
- A[Landing Page]
-    -->|Book Consultation CTA| B[booking_started]
-
-    B -->|window.dataLayer.push()| C[booking_step_completed<br/>Step 1<br/>Clinic + Speciality]
-
-    C -->|window.dataLayer.push()| D[booking_step_completed<br/>Step 2<br/>Patient Details]
-
+    A[Landing Page] -->|Book Consultation CTA| B[booking_started]
+    B -->|window.dataLayer.push()| C["booking_step_completed (Step 1: Clinic & Speciality)"]
+    C -->|window.dataLayer.push()| D["booking_step_completed (Step 2: Patient Details)"]
     D -->|window.dataLayer.push()| E[appointment_booked]
-
     E -->|GA4 Conversion| F[Google Analytics 4]
-
     F -->|Import Conversion| G[Google Ads]
 ```
 
@@ -90,7 +75,7 @@ To ensure semantic accuracy and seamless integration with GA4 and advertising pl
 ### Step 1: Selection of Clinic & Speciality
 Pushed when the user completes the selection of the clinic location and medical specialty and moves to the next step.
 
-```json
+```javascript
 window.dataLayer.push({
   event: "booking_step_completed",
   step_number: 1,
@@ -102,7 +87,7 @@ window.dataLayer.push({
 ### Step 2: Patient Details Input
 Pushed when the patient details (e.g., patient type, general age group/demographics if applicable) are successfully validated and submitted.
 
-```json
+```javascript
 window.dataLayer.push({
   event: "booking_step_completed",
   step_number: 2,
@@ -114,7 +99,7 @@ window.dataLayer.push({
 ### Step 3: Confirmation and Successful Booking
 Pushed immediately upon receipt of the success callback from the appointment API, generating a unique transaction ID and value.
 
-```json
+```javascript
 window.dataLayer.push({
   event: "appointment_booked",
   step_number: 3,
