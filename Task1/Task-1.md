@@ -59,9 +59,9 @@ The booking process consists of a three-step funnel. Since this is a multi-step 
 ```mermaid
 graph TD
     A[Landing Page] -->|Book Consultation CTA| B[booking_started]
-    B -->|window.dataLayer.push()| C["booking_step_completed (Step 1: Clinic & Speciality)"]
-    C -->|window.dataLayer.push()| D["booking_step_completed (Step 2: Patient Details)"]
-    D -->|window.dataLayer.push()| E[appointment_booked]
+    B -->|"window.dataLayer.push()"| C["booking_step_completed (Step 1: Clinic & Speciality)"]
+    C -->|"window.dataLayer.push()"| D["booking_step_completed (Step 2: Patient Details)"]
+    D -->|"window.dataLayer.push()"| E[appointment_booked]
     E -->|GA4 Conversion| F[Google Analytics 4]
     F -->|Import Conversion| G[Google Ads]
 ```
